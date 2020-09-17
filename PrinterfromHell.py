@@ -54,10 +54,32 @@ def change_indentation(text, spaces):
     # ... now add your code
     lis = []
     tmp = []
-    for l in text.split('\n'):
-        for c in l:
-            
-            tmp.append(c)
-        else:
-            lis.append(tmp)
-            tmp = []
+    lis = text.split('\n')
+    out = ""
+    if spaces >=0:
+        for l in lis:
+            le = len(l)
+            for i in range(spaces, 0, -1):
+                if (i + le) <= 80:
+                    out += " "*i + l
+                    break
+            else:
+                out += l
+            out+='\n'
+    else:
+        for l in lis:
+            cnt = 0
+            for c in l:
+                if c != ' ':
+                    break
+                cnt+=1
+            if cnt >= abs(spaces):
+                out += l[abs(spaces):] + '\n'
+            else:
+                out += l[cnt:] + '\n'
+    return out[:-1]
+
+text = "    print(x)\n    y = input()"
+
+
+print(change_indentation(text, -6))
